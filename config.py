@@ -1,7 +1,7 @@
 # Hyperparameter
 # batch_size = 32
-batch_size = 64
-epochs = 20
+batch_size = 32
+epochs = 200
 input_resolution = '224x224x3'
 learning_rate = 0.001
 

@@ -22,7 +22,7 @@ def document_model_information(model, history):
 
 
 def save_model_as_h5_file(model, unique_id, current_datetime, file_path="docs/saved_models/"):
-    filename = f"{file_path}{unique_id}_{current_datetime}.h5"
+    filename = f"{file_path}{unique_id}_{current_datetime}.keras"
     model.save(filename)
 
 
