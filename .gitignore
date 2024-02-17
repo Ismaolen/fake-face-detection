@@ -1,0 +1,11 @@
+.idea/
+bin
+include
+lib
+lib64
+share
+venv
+.venv
+.idea
+__pycache__
+images.h5
