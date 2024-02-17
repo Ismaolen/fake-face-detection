@@ -54,15 +54,16 @@ def main():
     # Anzeigen einiger augmentierten Trainingsbilder
     # display_augmented_images(train_generator, num_samples=5)
 
-    history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator, test_generator,
-                                                                                       batch_size, epochs)
-    print(history_pretrained_xception.history)
-    document_model_information(model_pretrained_xception, history_pretrained_xception)
+    #history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator, test_generator,
+    #                                                                                   batch_size, epochs)
+    history, model = train_custom_vgg16(train_generator, test_generator, batch_size, epochs)
+    print(history.history)
+    document_model_information(model, history)
 
 
     test_steps = len(test_generator)
     # Evaluierung des Modells
-    evaluate_model(model_pretrained_xception, test_generator, test_steps)
+    evaluate_model(model, test_generator, test_steps)
 
     '''
     # Create and train models
