@@ -5,10 +5,12 @@ import sys
 from config import num_class
 
 
-def evaluate_model(model, test_generator, steps, log_file_path='evaluation_log.txt'):
+def evaluate_model(model, test_generator, steps, unique_id, log_file_path='docs/evaluated/'):
+    filename = f"{log_file_path}{unique_id}.txt"
+
     # Umleiten der Standardausgabe in eine Datei
     original_stdout = sys.stdout
-    with open(log_file_path, 'w') as f:
+    with open(filename, 'w') as f:
         sys.stdout = f
 
         # Initialisierung der Listen für tatsächliche und vorhergesagte Labels
@@ -39,4 +41,4 @@ def evaluate_model(model, test_generator, steps, log_file_path='evaluation_log.t
     sys.stdout = original_stdout
 
     # Abschließende Nachricht in der Konsole
-    print(f"Evaluationsergebnisse wurden in {log_file_path} gespeichert.")
+    print(f"Evaluationsergebnisse wurden in {filename} gespeichert.")

@@ -17,12 +17,13 @@ def document_model_information(model, history):
     append_data_augmentation_to_file(unique_id, current_datetime)
     append_hyperparameters_to_file(unique_id, current_datetime)
     append_training_metrics_from_history(unique_id, current_datetime, history)
-    plot_metrics(unique_id, current_datetime, history, path="docs/loss_vs_accuracy_diagrams/")
-    save_model_as_h5_file(model, unique_id, current_datetime, "docs/saved_models/")
+    plot_metrics(unique_id, history, path="docs/loss_vs_accuracy_diagrams/")
+    save_model_as_keras_file(model, unique_id, "docs/saved_models/")
+    return unique_id
 
 
-def save_model_as_h5_file(model, unique_id, current_datetime, file_path="docs/saved_models/"):
-    filename = f"{file_path}{unique_id}_{current_datetime}.keras"
+def save_model_as_keras_file(model, unique_id, file_path="docs/saved_models/"):
+    filename = f"{file_path}{unique_id}.keras"
     model.save(filename)
 
 

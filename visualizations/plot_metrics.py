@@ -3,7 +3,7 @@ import uuid
 import datetime
 
 
-def plot_metrics(unique_id, current_datetime, history, path="docs/loss_vs_accuracy_diagrams/"):
+def plot_metrics(unique_id, history, path="docs/loss_vs_accuracy_diagrams/"):
     """Plot training and validation loss and accuracy with a unique filename.
 
     Parameters:
@@ -15,7 +15,7 @@ def plot_metrics(unique_id, current_datetime, history, path="docs/loss_vs_accura
     - None
     """
     # image wird nicht gespeichert.
-    filename = path + f"{unique_id}_{current_datetime}.png"
+    filename = path + f"{unique_id}.png"
 
     figure, axs = plt.subplots(2, 1)
     axs[0].set_title("Loss")

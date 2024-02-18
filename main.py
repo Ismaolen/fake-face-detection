@@ -68,11 +68,11 @@ def main():
     #                                                                                   batch_size, epochs)
     history, model = train_pretrained_xception(train_generator, test_generator, batch_size, epochs)
     print(history.history)
-    document_model_information(model, history)
+    unique_id = document_model_information(model, history)
 
     test_steps = len(test_generator)
     # Evaluierung des Modells
-    evaluate_model(model, test_generator, test_steps)
+    evaluate_model(model, test_generator, test_steps, unique_id)
 
     '''
     # Create and train models
