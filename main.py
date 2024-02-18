@@ -4,7 +4,7 @@ from data.data_loader import load_images, load_data
 from data.dataset_creator import create_data, save_data
 from data.preprocessor import preprocess_data
 from evaluation.confusion_matrix import evaluate_model
-from models.vgg16_model import train_custom_vgg16, train_pretrained_xception
+from models.vgg16_model import train_custom_vgg16, train_pretrained_xception, train_pretrained_xception_1
 from models.vgg16_pretrained import train_pretrained_vgg16
 from models.vgg16_pretrained_weighted_loss import train_pretrained_vgg16_weighted
 from training.training_logger import document_model_information
@@ -66,7 +66,7 @@ def main():
 
     # history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator, test_generator,
     #                                                                                   batch_size, epochs)
-    history, model = train_pretrained_xception(train_generator, test_generator, batch_size, epochs)
+    history, model = train_pretrained_xception_1(train_generator, test_generator, batch_size, epochs)
     print(history.history)
     unique_id = document_model_information(model, history)
 
