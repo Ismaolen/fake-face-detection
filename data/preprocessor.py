@@ -2,8 +2,9 @@ import cv2
 import numpy as np
 
 from utils.logger import print_status
-
+from config import num_class
 from tensorflow.keras.utils import to_categorical
+
 
 def scale_images(data, target_size=(224, 224)):
     """ Skaliert Bilder auf eine gegebene Größe. """
@@ -31,9 +32,8 @@ def preprocess_data(train_images, test_images, train_labels, test_labels):
     normalized_test_images = normalize_images(scaled_test_images)
 
     # Umwandeln in One-Hot-Kodierung
-    train_labels = to_categorical(train_labels, num_classes=3)
-    test_labels = to_categorical(test_labels, num_classes=3)
-
+    train_labels = to_categorical(train_labels, num_classes=(3 if num_class != 2 else 2))
+    test_labels = to_categorical(test_labels, num_classes=(3 if num_class != 2 else 2))
 
     # Aktualisierte Trainings- und Testdaten
     normalized_train_data = (normalized_train_images, train_labels)

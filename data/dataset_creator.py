@@ -1,15 +1,13 @@
-import time
-
 import numpy as np
-import inspect
 import matplotlib.pyplot as plt
 import h5py
+from config import num_class
 
 from utils.logger import print_status
 
 
 # Erstellung von Dataset, die aus train und test data besteht.
-def create_data(real_images, fake_images, other_images):
+def create_data(real_images, fake_images, other_images=None):
     dataset_creator = DatasetCreator(real_images, fake_images, other_images)
     train_data, test_data = dataset_creator.get_train_data(), dataset_creator.get_test_data()
     print_status()
@@ -17,32 +15,38 @@ def create_data(real_images, fake_images, other_images):
 
 
 # Speicherung der Daten
-def save_data(real_images, fake_images, other_images):
+def save_data(real_images, fake_images, other_images=None):
     with h5py.File('images.h5', 'w') as hf:
         hf.create_dataset('real_images', data=real_images)
         hf.create_dataset('fake_images', data=fake_images)
-        hf.create_dataset('other_images', data=other_images)
-
+        if num_class != 2:
+            hf.create_dataset('other_images', data=other_images)
     print_status()
 
 
 class DatasetCreator():
-    def __init__(self, real_images, fake_images, other_images):
+    def __init__(self, real_images, fake_images, other_images=None, other_labels=None):
         # Erstellen von Labels
         real_labels = np.ones(len(real_images))
         fake_labels = np.zeros(len(fake_images))
-        other_labels = np.full(len(other_images), 2)
+        if num_class != 2:
+            other_labels = np.full(len(other_images), 2)
 
         # (schneller) Zusammenführen der Bilder und Labels vor dem Aufteilen
-        total_length = len(real_images) + len(fake_images) + len(other_images)
+        if num_class != 2:
+            total_length = len(real_images) + len(fake_images) + len(other_images)
+        else:
+            total_length = len(real_images) + len(fake_images)
         all_images = np.empty((total_length,) + real_images[0].shape, dtype=real_images[0].dtype)
         # Hinzufügen der realen, gefälschten und anderen Bilder
         all_images[:len(real_images)] = real_images
         all_images[len(real_images):len(real_images) + len(fake_images)] = fake_images
-        all_images[len(real_images) + len(fake_images):] = other_images
+        if num_class != 2:
+            (all_images[len(real_images) + len(fake_images):]) = other_images
 
         # Zusammenführen der Labels
-        all_labels = np.concatenate([real_labels, fake_labels, other_labels], axis=0)
+        all_labels = np.concatenate([real_labels, fake_labels] +
+                                    ([other_labels] if num_class != 2 else []), axis=0)
 
         # (Langsamer) Zusammenführen der Bilder und Labels vor dem Aufteilen
         # all_images = np.concatenate([real_images, fake_images], axis=0)
@@ -56,8 +60,6 @@ class DatasetCreator():
         self.train_data = (x_train, y_train)
         self.test_data = (x_test, y_test)
         print_status()
-
-
 
     def get_train_data(self):
         print_status()

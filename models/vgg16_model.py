@@ -6,6 +6,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from tensorflow.keras.optimizers import Adam
 
+from config import num_class
+
 
 def train_custom_vgg16(train_generator, test_generator, batch_size=32, epochs=10):
     model = Sequential([
@@ -14,7 +16,7 @@ def train_custom_vgg16(train_generator, test_generator, batch_size=32, epochs=10
         MaxPooling2D((2, 2), strides=(2, 2)),
         # Weitere VGG16 typische Convolutional und MaxPooling-Schichten...
         Flatten(),
-        Dense(3, activation='softmax')  # Anpassung für drei Klassen
+        Dense(3 if num_class != 2 else 2, activation='softmax')  # Anpassung für drei Klassen
     ])
     model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -48,14 +50,15 @@ def train_pretrained_xception(train_generator, test_generator, batch_size, epoch
     for layer in xception_base.layers:
         layer.trainable = False
 
-    # Erstellen des Gesamtmodells mit 3 Klassen
+    # Erstellen des Gesamtmodells mit 2-3 Klassen
     model = Sequential([
         xception_base,
         GlobalAveragePooling2D(),
-        Dense(3, activation='softmax')  # 3 Neuronen für 3 Klassen
+        Dense(3 if num_class != 2 else 2, activation='softmax')  # 3 Neuronen für 3 Klassen
     ])
 
-    model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=Adam(), loss=('categorical_crossentropy' if num_class != 2 else 'binary_crossentropy'),
+                  metrics=['accuracy'])
     steps_per_epoch = max(1, len(train_generator) // batch_size)
     validation_steps = max(1, len(test_generator) // batch_size)
 

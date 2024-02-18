@@ -2,6 +2,9 @@ import numpy as np
 from sklearn.metrics import confusion_matrix, classification_report
 import sys
 
+from config import num_class
+
+
 def evaluate_model(model, test_generator, steps, log_file_path='evaluation_log.txt'):
     # Umleiten der Standardausgabe in eine Datei
     original_stdout = sys.stdout
@@ -23,7 +26,10 @@ def evaluate_model(model, test_generator, steps, log_file_path='evaluation_log.t
 
         # Berechnen der Confusion Matrix und des Klassifizierungsberichts
         cm = confusion_matrix(y_true, y_pred)
-        cr = classification_report(y_true, y_pred, target_names=['fake', 'real', 'other'])
+        if num_class != 2:
+            cr = classification_report(y_true, y_pred, target_names=['fake', 'real', 'other'])
+        else:
+            cr = classification_report(y_true, y_pred, target_names=['fake', 'real'])
 
         # Ausgabe der Confusion Matrix und des Klassifizierungsberichts
         print("Confusion Matrix:\n", cm)

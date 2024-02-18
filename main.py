@@ -29,10 +29,10 @@ def main():
     # print("Verfügbare Geräte: ", tf.config.list_physical_devices())
 
     # Load Data from the Path
-    # real_images, fake_images, other_images = load_data('data/')
+    real_images, fake_images, other_images = load_data('data/')
 
     # Save the Fake and Real Images
-    # save_data(real_images, fake_images, other_images)
+    save_data(real_images, fake_images, other_images)
 
     # Load the Fake and Real Images
     real_images, fake_images, other_images = load_images()
@@ -54,12 +54,11 @@ def main():
     # Anzeigen einiger augmentierten Trainingsbilder
     # display_augmented_images(train_generator, num_samples=5)
 
-    #history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator, test_generator,
+    # history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator, test_generator,
     #                                                                                   batch_size, epochs)
-    history, model = train_custom_vgg16(train_generator, test_generator, batch_size, epochs)
+    history, model = train_pretrained_xception(train_generator, test_generator, batch_size, epochs)
     print(history.history)
     document_model_information(model, history)
-
 
     test_steps = len(test_generator)
     # Evaluierung des Modells
