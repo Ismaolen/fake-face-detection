@@ -229,3 +229,100 @@ def train_pretrained_xception_2(train_generator, test_generator, batch_size, epo
             # plt.imshow(test_images[i])
             # plt.show()
     return history, model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout, BatchNormalization
+from tensorflow.keras.optimizers import Adam, RMSprop
+from tensorflow.keras.applications import Xception
+from tensorflow.keras.regularizers import l1, l2
+from tensorflow.keras.callbacks import LearningRateScheduler, ReduceLROnPlateau
+
+def train_pretrained_xception_3(train_generator, test_generator, batch_size, epochs, num_classes):
+    # Laden des Xception-Modells, vortrainiert auf ImageNet
+    xception_base = Xception(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+    # Feintuning: Einige der oberen Schichten des Xception-Modells freigeben
+    # Freeze the un-trainable layers of the model base
+    for layer in xception_base.layers[:(len(xception_base.layers) - 19)]:
+        layer.trainable = False
+    for layer in xception_base.layers[(len(xception_base.layers) - 19):]:
+        layer.trainable = True
+    # xception_base.trainable = False
+
+    # Erstellen des Gesamtmodells
+    model = Sequential([
+        xception_base,
+        BatchNormalization(),
+        GlobalAveragePooling2D(),
+        Dense(256, activation='relu', kernel_regularizer=l2(0.001)),  # L2-Regularisierung
+        Dropout(0.5),
+        BatchNormalization(),
+        Dense(3 if num_class != 2 else 2, activation='softmax')
+    ])
+
+    # Optimierer: RMSprop als Alternative zu Adam
+    use_rmsprop = True
+    optimizer = RMSprop(learning_rate=0.0001) if use_rmsprop else Adam(learning_rate=0.0001)
+
+    # Modell kompilieren
+    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
+
+    # Learning Rate Scheduler einrichten
+    lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5)
+
+    # Modell trainieren
+    history = model.fit(
+        train_generator,
+        steps_per_epoch=max(1, len(train_generator) // batch_size),
+        validation_data=test_generator,
+        validation_steps=max(1, len(test_generator) // batch_size),
+        epochs=epochs,
+        callbacks=[lr_scheduler]  # Learning Rate Scheduler als Callback hinzufügen
+    )
+
+    # Erhalten der Vorhersagen vom Testgenerator
+    test_images, test_labels = next(test_generator)
+    predictions = model.predict(test_images)
+
+    # Umwandeln der Vorhersagen in Klassenindizes
+    predicted_classes = np.argmax(predictions, axis=1)
+    actual_classes = np.argmax(test_labels, axis=1)
+
+    # Vergleich der Vorhersagen mit den tatsächlichen Labels
+    for i, (pred, actual) in enumerate(zip(predicted_classes, actual_classes)):
+        if pred != actual:
+            print(f"Fehler bei Bild {i}: Vorhergesagt {pred}, Tatsächlich {actual}")
+            # plt.imshow(test_images[i])
+            # plt.show()
+        if pred == actual:
+            print(f"Richtig bei Bild {i}: Vorhergesagt {pred}, Tatsächlich {actual}")
+            # plt.imshow(test_images[i])
+            # plt.show()
+    return history, model

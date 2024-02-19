@@ -5,7 +5,7 @@ from data.dataset_creator import create_data, save_data
 from data.preprocessor import preprocess_data
 from evaluation.confusion_matrix import evaluate_model
 from models.vgg16_model import train_custom_vgg16, train_pretrained_xception, train_pretrained_xception_1, \
-    train_pretrained_xception_2
+    train_pretrained_xception_2, train_pretrained_xception_3
 from models.vgg16_pretrained import train_pretrained_vgg16
 from models.vgg16_pretrained_weighted_loss import train_pretrained_vgg16_weighted
 from training.training_logger import document_model_information
@@ -32,17 +32,17 @@ def main():
     # Load Data from the Path
     global real_images, fake_images, other_images
     if num_class != 2:
-        #real_images, fake_images, other_images = load_data('data/')
+        real_images, fake_images, other_images = load_data('data/')
         # Save the Fake and Real Images
-        # save_data(real_images, fake_images, other_images)
+        save_data(real_images, fake_images, other_images)
         # Load the Fake and Real Images
         real_images, fake_images, other_images = load_images()
         # Aufteilen in Tests und Trains images
         train_data, test_data = create_data(real_images, fake_images, other_images)
     else:
-        # real_images, fake_images = load_data('data/')
+        real_images, fake_images = load_data('data/')
         # Save the Fake and Real Images
-        # save_data(real_images, fake_images)
+        save_data(real_images, fake_images)
         # Load the Fake and Real Images
         real_images, fake_images = load_images()
         # Aufteilen in Tests und Trains images
@@ -65,9 +65,9 @@ def main():
     # Anzeigen einiger augmentierten Trainingsbilder
     # display_augmented_images(train_generator, num_samples=5)
 
-    # history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator, test_generator,
-    #                                                                                   batch_size, epochs)
-    history, model = train_pretrained_xception_2(train_generator, test_generator, batch_size, epochs)
+    # history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator,
+    # test_generator, batch_size, epochs)
+    history, model = train_pretrained_xception_3(train_generator, test_generator, batch_size, epochs)
     print(history.history)
     unique_id = document_model_information(model, history)
 
