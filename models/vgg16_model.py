@@ -177,6 +177,7 @@ def train_pretrained_xception_2(train_generator, test_generator, batch_size, epo
         layer.trainable = False
     for layer in xception_base.layers[-5:]:
         layer.trainable = True
+    # xception_base.trainable = False
 
     # Erstellen des Gesamtmodells
     model = Sequential([
@@ -192,9 +193,9 @@ def train_pretrained_xception_2(train_generator, test_generator, batch_size, epo
     optimizer = RMSprop(learning_rate=0.001) if use_rmsprop else Adam(learning_rate=0.001)
 
     # Modell kompilieren
-    loss = 'categorical_crossentropy' if num_class != 2 else 'binary_crossentropy'
+    # loss = 'categorical_crossentropy' if num_class != 2 else 'binary_crossentropy'
     # mit binary_crossentropy wenn zwei klassen und Daten nicht in one hot-kodierung vorlegen.
-    # loss = 'categorical_crossentropy'  # da sowieso Daten in one-hot kodiert sind.
+    loss = 'categorical_crossentropy'  # da sowieso Daten in one-hot kodiert sind.
     model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
 
     # Learning Rate Scheduler einrichten
