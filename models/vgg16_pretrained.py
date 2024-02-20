@@ -2,7 +2,10 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten
 from tensorflow.keras.applications import VGG16
 from tensorflow.keras.layers import Input
-def train_pretrained_vgg16(normalized_train_data, normalized_test_data, train_generator, test_generator, batch_size=32, epochs=10):
+
+
+def train_pretrained_vgg16(normalized_train_data, normalized_test_data, train_generator, test_generator, batch_size=32,
+                           epochs=10):
     vgg16 = VGG16(
         include_top=False,
         weights='imagenet',

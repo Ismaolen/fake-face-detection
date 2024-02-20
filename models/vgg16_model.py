@@ -1,12 +1,15 @@
-from keras.src.layers import MaxPooling2D
-from matplotlib import pyplot as plt
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten
-from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from tensorflow.keras.optimizers import Adam
 
+import numpy as np
 from config import num_class
+import tensorflow as tf
+from tensorflow.keras.optimizers import Adam, RMSprop
+from tensorflow.keras.callbacks import LearningRateScheduler, ReduceLROnPlateau, EarlyStopping
+
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout, BatchNormalization
+from tensorflow.keras.applications import Xception
+from tensorflow.keras.regularizers import l2
 
 
 def train_custom_vgg16(train_generator, test_generator, batch_size=32, epochs=10):
@@ -32,14 +35,6 @@ def train_custom_vgg16(train_generator, test_generator, batch_size=32, epochs=10
         epochs=epochs
     )
     return history_vgg16_custom, model
-
-
-from tensorflow.keras.applications import Xception
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
-from tensorflow.keras.optimizers import Adam
-import numpy as np
-import matplotlib.pyplot as plt
 
 
 def train_pretrained_xception(train_generator, test_generator, batch_size, epochs):
@@ -152,14 +147,6 @@ def train_pretrained_xception_1(train_generator, test_generator, batch_size, epo
     return history, model
 
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout
-from tensorflow.keras.optimizers import Adam, RMSprop
-from tensorflow.keras.applications import Xception
-from tensorflow.keras.callbacks import LearningRateScheduler
-import tensorflow as tf
-
-
 def scheduler(epoch, lr):
     if epoch < 10:
         return lr
@@ -231,39 +218,6 @@ def train_pretrained_xception_2(train_generator, test_generator, batch_size, epo
     return history, model
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Dropout, BatchNormalization
-from tensorflow.keras.optimizers import Adam, RMSprop
-from tensorflow.keras.applications import Xception
-from tensorflow.keras.regularizers import l1, l2
-from tensorflow.keras.callbacks import LearningRateScheduler, ReduceLROnPlateau
-
 def train_pretrained_xception_3(train_generator, test_generator, batch_size, epochs):
     # Laden des Xception-Modells, vortrainiert auf ImageNet
     xception_base = Xception(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
@@ -305,6 +259,68 @@ def train_pretrained_xception_3(train_generator, test_generator, batch_size, epo
         validation_steps=max(1, len(test_generator) // batch_size),
         epochs=epochs,
         callbacks=[lr_scheduler]  # Learning Rate Scheduler als Callback hinzufügen
+    )
+
+    # Erhalten der Vorhersagen vom Testgenerator
+    test_images, test_labels = next(test_generator)
+    predictions = model.predict(test_images)
+
+    # Umwandeln der Vorhersagen in Klassenindizes
+    predicted_classes = np.argmax(predictions, axis=1)
+    actual_classes = np.argmax(test_labels, axis=1)
+
+    # Vergleich der Vorhersagen mit den tatsächlichen Labels
+    for i, (pred, actual) in enumerate(zip(predicted_classes, actual_classes)):
+        if pred != actual:
+            print(f"Fehler bei Bild {i}: Vorhergesagt {pred}, Tatsächlich {actual}")
+            # plt.imshow(test_images[i])
+            # plt.show()
+        if pred == actual:
+            print(f"Richtig bei Bild {i}: Vorhergesagt {pred}, Tatsächlich {actual}")
+            # plt.imshow(test_images[i])
+            # plt.show()
+    return history, model
+
+
+def train_pretrained_xception_4(train_generator, test_generator, batch_size, epochs):
+    # Laden des Xception-Modells, vortrainiert auf ImageNet
+    xception_base = Xception(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+    # Feintuning: Einige der oberen Schichten des Xception-Modells freigeben
+    for layer in xception_base.layers[:-19]:
+        layer.trainable = False
+    for layer in xception_base.layers[-19:]:
+        layer.trainable = True
+
+    # Erstellen des Gesamtmodells
+    model = Sequential([
+        xception_base,
+        BatchNormalization(),
+        GlobalAveragePooling2D(),
+        Dense(512, activation='relu', kernel_regularizer=l2(0.001)),  # Mehr Neuronen und stärkere Regularisierung
+        Dropout(0.7),  # Erhöhte Dropout-Rate
+        BatchNormalization(),
+        Dense(num_class, activation='softmax')  # Anpassung für die Anzahl der Klassen
+    ])
+
+    # Optimierer: RMSprop als Alternative zu Adam
+    optimizer = RMSprop(learning_rate=0.00001)
+
+    # Modell kompilieren
+    model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
+
+    # Learning Rate Scheduler und Early Stopping einrichten
+    lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5)
+    early_stopping = EarlyStopping(monitor='val_accuracy', patience=10, restore_best_weights=True)
+
+    # Modell trainieren
+    history = model.fit(
+        train_generator,
+        steps_per_epoch=max(1, len(train_generator) // batch_size),
+        validation_data=test_generator,
+        validation_steps=max(1, len(test_generator) // batch_size),
+        epochs=epochs,
+        callbacks=[lr_scheduler, early_stopping]  # Callbacks hinzufügen
     )
 
     # Erhalten der Vorhersagen vom Testgenerator
