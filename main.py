@@ -32,17 +32,17 @@ def main():
     # Load Data from the Path
     global real_images, fake_images, other_images
     if num_class != 2:
-        real_images, fake_images, other_images = load_data('data/')
+        # real_images, fake_images, other_images = load_data('data/')
         # Save the Fake and Real Images
-        save_data(real_images, fake_images, other_images)
+        # save_data(real_images, fake_images, other_images)
         # Load the Fake and Real Images
         real_images, fake_images, other_images = load_images()
         # Aufteilen in Tests und Trains images
         train_data, test_data = create_data(real_images, fake_images, other_images)
     else:
-        real_images, fake_images = load_data('data/')
+        # real_images, fake_images = load_data('data/')
         # Save the Fake and Real Images
-        save_data(real_images, fake_images)
+        # save_data(real_images, fake_images)
         # Load the Fake and Real Images
         real_images, fake_images = load_images()
         # Aufteilen in Tests und Trains images

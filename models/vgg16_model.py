@@ -264,7 +264,7 @@ from tensorflow.keras.applications import Xception
 from tensorflow.keras.regularizers import l1, l2
 from tensorflow.keras.callbacks import LearningRateScheduler, ReduceLROnPlateau
 
-def train_pretrained_xception_3(train_generator, test_generator, batch_size, epochs, num_classes):
+def train_pretrained_xception_3(train_generator, test_generator, batch_size, epochs):
     # Laden des Xception-Modells, vortrainiert auf ImageNet
     xception_base = Xception(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 
