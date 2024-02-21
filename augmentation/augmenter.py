@@ -18,7 +18,6 @@ def create_train_generator(train_data, batch_size_f=batch_size):
         # new
         # brightness_range=[0.8, 1.2],
         # channel_shift_range=20.0,
-        # rescale=1.0/255.0
     )
     print_status()
     return train_datagen.flow(train_data[0], train_data[1], batch_size=batch_size_f)
@@ -27,7 +26,7 @@ def create_train_generator(train_data, batch_size_f=batch_size):
 def create_test_generator(test_data, batch_size_f=batch_size):
     test_datagen = ImageDataGenerator()
     # new
-    # test_datagen = ImageDataGenerator(rescale=1.0/255.0)
+    # test_datagen = ImageDataGenerator(rescale=1.0/255.0) wurde schon skaliert, deshalb gelöscht. 
     print_status()
     return test_datagen.flow(test_data[0], test_data[1], batch_size=batch_size_f)
 

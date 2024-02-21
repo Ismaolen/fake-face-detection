@@ -840,3 +840,99 @@ Total params: 21921834 (83.63 MB)
 Trainable params: 8381610 (31.97 MB)
 Non-trainable params: 13540224 (51.65 MB)
 _________________________________________________________________
+
+
+=================================================================
+ID: a2a2816f-54ef-4112-a3d4-5bbb998b56b6
+2024-02-21_10:43
+=================================================================
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ xception (Functional)       (None, 7, 7, 2048)        20861480  
+                                                                 
+ batch_normalization_4 (Bat  (None, 7, 7, 2048)        8192      
+ chNormalization)                                                
+                                                                 
+ global_average_pooling2d (  (None, 2048)              0         
+ GlobalAveragePooling2D)                                         
+                                                                 
+ dense (Dense)               (None, 512)               1049088   
+                                                                 
+ dropout (Dropout)           (None, 512)               0         
+                                                                 
+ batch_normalization_5 (Bat  (None, 512)               2048      
+ chNormalization)                                                
+                                                                 
+ dense_1 (Dense)             (None, 2)                 1026      
+                                                                 
+=================================================================
+Total params: 21921834 (83.63 MB)
+Trainable params: 8381610 (31.97 MB)
+Non-trainable params: 13540224 (51.65 MB)
+_________________________________________________________________
+
+
+=================================================================
+ID: 78dcbf0a-6602-4f1e-aba2-b01dfe0c6b2b
+2024-02-21_13:58
+=================================================================
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ xception (Functional)       (None, 7, 7, 2048)        20861480  
+                                                                 
+ batch_normalization_4 (Bat  (None, 7, 7, 2048)        8192      
+ chNormalization)                                                
+                                                                 
+ global_average_pooling2d (  (None, 2048)              0         
+ GlobalAveragePooling2D)                                         
+                                                                 
+ dense (Dense)               (None, 512)               1049088   
+                                                                 
+ dropout (Dropout)           (None, 512)               0         
+                                                                 
+ batch_normalization_5 (Bat  (None, 512)               2048      
+ chNormalization)                                                
+                                                                 
+ dense_1 (Dense)             (None, 2)                 1026      
+                                                                 
+=================================================================
+Total params: 21921834 (83.63 MB)
+Trainable params: 8381610 (31.97 MB)
+Non-trainable params: 13540224 (51.65 MB)
+_________________________________________________________________
+
+
+=================================================================
+ID: df6ca44f-d4d7-483a-8f31-540c0569ca40
+2024-02-21_19:21
+=================================================================
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ xception (Functional)       (None, 7, 7, 2048)        20861480  
+                                                                 
+ batch_normalization_4 (Bat  (None, 7, 7, 2048)        8192      
+ chNormalization)                                                
+                                                                 
+ global_average_pooling2d (  (None, 2048)              0         
+ GlobalAveragePooling2D)                                         
+                                                                 
+ dense (Dense)               (None, 512)               1049088   
+                                                                 
+ dropout (Dropout)           (None, 512)               0         
+                                                                 
+ batch_normalization_5 (Bat  (None, 512)               2048      
+ chNormalization)                                                
+                                                                 
+ dense_1 (Dense)             (None, 2)                 1026      
+                                                                 
+=================================================================
+Total params: 21921834 (83.63 MB)
+Trainable params: 8381610 (31.97 MB)
+Non-trainable params: 13540224 (51.65 MB)
+_________________________________________________________________

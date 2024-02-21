@@ -287,9 +287,10 @@ def train_pretrained_xception_4(train_generator, test_generator, batch_size, epo
     xception_base = Xception(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 
     # Feintuning: Einige der oberen Schichten des Xception-Modells freigeben
-    for layer in xception_base.layers[:-19]:
+    # Freeze the un-trainable layers of the model base
+    for layer in xception_base.layers[:(len(xception_base.layers) - 19)]:
         layer.trainable = False
-    for layer in xception_base.layers[-19:]:
+    for layer in xception_base.layers[(len(xception_base.layers) - 19):]:
         layer.trainable = True
 
     # Erstellen des Gesamtmodells
@@ -304,15 +305,15 @@ def train_pretrained_xception_4(train_generator, test_generator, batch_size, epo
     ])
 
     # Optimierer: RMSprop als Alternative zu Adam
-    optimizer = RMSprop(learning_rate=0.00001)
+    optimizer = RMSprop(learning_rate=0.0001)
 
     # Modell kompilieren
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Learning Rate Scheduler und Early Stopping einrichten
-    lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5)
-    early_stopping = EarlyStopping(monitor='val_accuracy', patience=10, restore_best_weights=True)
-
+    # lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5)
+    lr_scheduler = ReduceLROnPlateau(monitor='val_accuracy', factor=0.2, patience=5, mode='max', verbose=1)
+    # early_stopping = EarlyStopping(monitor='val_accuracy', patience=20, restore_best_weights=True)
     # Modell trainieren
     history = model.fit(
         train_generator,
@@ -320,7 +321,7 @@ def train_pretrained_xception_4(train_generator, test_generator, batch_size, epo
         validation_data=test_generator,
         validation_steps=max(1, len(test_generator) // batch_size),
         epochs=epochs,
-        callbacks=[lr_scheduler, early_stopping]  # Callbacks hinzufügen
+        callbacks=[lr_scheduler] # ,early_stopping]  # Callbacks hinzufügen
     )
 
     # Erhalten der Vorhersagen vom Testgenerator
