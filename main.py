@@ -67,7 +67,7 @@ def main():
 
     # history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator,
     # test_generator, batch_size, epochs)
-    history, model = train_pretrained_xception_4(train_generator, test_generator, batch_size, epochs)
+    history, model = train_pretrained_xception_3(train_generator, test_generator, batch_size, epochs)
     print(history.history)
     unique_id = document_model_information(model, history)
 

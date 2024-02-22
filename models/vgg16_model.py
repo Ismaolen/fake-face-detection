@@ -235,8 +235,8 @@ def train_pretrained_xception_3(train_generator, test_generator, batch_size, epo
         xception_base,
         BatchNormalization(),
         GlobalAveragePooling2D(),
-        Dense(256, activation='relu', kernel_regularizer=l2(0.001)),  # L2-Regularisierung
-        Dropout(0.5),
+        Dense(512, activation='relu', kernel_regularizer=l2(0.001)),  # L2-Regularisierung
+        Dropout(0.7),
         BatchNormalization(),
         Dense(3 if num_class != 2 else 2, activation='softmax')
     ])
@@ -249,7 +249,7 @@ def train_pretrained_xception_3(train_generator, test_generator, batch_size, epo
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Learning Rate Scheduler einrichten
-    lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5)
+    lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.05, patience=8, mode='min', verbose=1)
 
     # Modell trainieren
     history = model.fit(
