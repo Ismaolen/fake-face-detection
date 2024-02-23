@@ -249,7 +249,7 @@ def train_pretrained_xception_3(train_generator, test_generator, batch_size, epo
     model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Learning Rate Scheduler einrichten
-    lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.05, patience=8, mode='min', verbose=1)
+    lr_scheduler = ReduceLROnPlateau(monitor='val_loss', factor=0.05, patience=10, mode='min', verbose=1)
 
     # Modell trainieren
     history = model.fit(

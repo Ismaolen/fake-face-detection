@@ -16,7 +16,6 @@ def create_train_generator(train_data, batch_size_f=batch_size):
         vertical_flip=vertical_flip,
         fill_mode=fill_mode,
         # new
-        # brightness_range=[0.8, 1.2],
         # channel_shift_range=20.0,
     )
     print_status()
