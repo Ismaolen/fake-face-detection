@@ -31,7 +31,8 @@ def append_model_summary_to_file(model, unique_id, current_datetime,
                                  file_path='docs/model_architecture.txt'):
     # Umleiten der summary-Ausgabe in eine Variable
     stream = io.StringIO()
-    model.summary(print_fn=lambda x: stream.write(x + '\n'))
+    # model.summary(print_fn=lambda x: stream.write(x + '\n'))
+    model.summary(print_fn=lambda x, **kwargs: stream.write(x + '\n'))
     summary_string = stream.getvalue()
     stream.close()
 
