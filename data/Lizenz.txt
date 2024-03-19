@@ -1,5 +1,7 @@
-https://www.kaggle.com/datasets/ciplab/real-and-fake-face-detection ALLE
 
-https://www.kaggle.com/datasets/xhlulu/140k-real-and-fake-faces NUR TEIL
 
-https://www.kaggle.com/datasets/moltean/fruits/ NUR APFEL
+https://www.kaggle.com/datasets/ciplab/real-and-fake-face-detection Nur Teil
+
+https://www.kaggle.com/datasets/xhlulu/140k-real-and-fake-faces Alle
+
+Klasse Other: https://www.kaggle.com/datasets/moltean/fruits/ 
