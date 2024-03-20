@@ -114,6 +114,7 @@ Description of what is seen in the video:
 In this video, you will see how images are recognized as real or fake. First, the script is executed, and then various images are presented in front of the camera. The model recognizes the images and determines whether they are real or fake. By the way, all images are labeled as real or fake, so we can determine whether the model has recognized the images correctly or incorrectly.
 
 **Visualization:**
+
 ![](./demo/demo_kamera/Video_Demo/Kamera_Demo.mp4){width=1080 height=620}
 
 ## Deactivating Virtual Environment
