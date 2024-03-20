@@ -1,10 +1,13 @@
 import numpy as np
 from sklearn.utils import class_weight
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten
+from tensorflow.keras.layers import Dense, Flatten
 from tensorflow.keras.applications import VGG16
 from tensorflow.keras.layers import Input
-def train_pretrained_vgg16_weighted(normalized_train_data, normalized_test_data, train_generator, test_generator, train_labels, batch_size=32, epochs=10):
+
+
+def train_pretrained_vgg16_weighted(normalized_train_data, normalized_test_data, train_generator, test_generator,
+                                    train_labels, batch_size=32, epochs=10):
     weights = compute_class_weights(train_labels)
     vgg16 = VGG16(
         include_top=False,
@@ -29,6 +32,7 @@ def train_pretrained_vgg16_weighted(normalized_train_data, normalized_test_data,
         epochs=epochs, class_weight=weights
     )
     return history_vgg16_weighted_loss, model
+
 
 def compute_class_weights(labels):
     class_weights = class_weight.compute_class_weight('balanced', classes=np.unique(labels), y=labels)

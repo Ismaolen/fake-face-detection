@@ -4,11 +4,12 @@ from data.data_loader import load_images, load_data
 from data.dataset_creator import create_data, save_data
 from data.preprocessor import preprocess_data
 from evaluation.confusion_matrix import evaluate_model
-from models.vgg16_model import train_custom_vgg16, train_pretrained_xception, train_pretrained_xception_1, \
+from models.xception_pretrained import train_pretrained_xception, train_pretrained_xception_1, \
     train_pretrained_xception_2, train_pretrained_xception_3, train_pretrained_xception_4
+from models.vgg16_custom import train_custom_vgg16
 from models.vgg16_pretrained import train_pretrained_vgg16
 from models.vgg16_pretrained_weighted_loss import train_pretrained_vgg16_weighted
-from training.training_logger import document_model_information
+from training_logger.training_logger import document_model_information
 import tensorflow as tf
 
 
@@ -48,9 +49,6 @@ def main():
         # Aufteilen in Tests und Trains images
         train_data, test_data = create_data(real_images, fake_images)
 
-
-
-
     # Extract Images and Labels
     (train_images, train_labels), (test_images, test_labels) = train_data, test_data
 
@@ -65,8 +63,6 @@ def main():
     # Anzeigen einiger augmentierten Trainingsbilder
     # display_augmented_images(train_generator, num_samples=5)
 
-    # history_pretrained_xception, model_pretrained_xception = train_pretrained_xception(train_generator,
-    # test_generator, batch_size, epochs)
     history, model = train_pretrained_xception_3(train_generator, test_generator, batch_size, epochs)
     print(history.history)
     unique_id = document_model_information(model, history)
@@ -74,46 +70,6 @@ def main():
     test_steps = len(test_generator)
     # Evaluierung des Modells
     evaluate_model(model, test_generator, test_steps, unique_id)
-
-    '''
-    # Create and train models
-    history_vgg16_custom, model_vgg16_custom = (
-        train_custom_vgg16(normalized_train_data,
-                           normalized_test_data,
-                           train_generator,
-                           test_generator,
-                           batch_size,
-                           epochs)
-    )
-    print(history_vgg16_custom.history)
-
-    # Aufrufen der Funktion
-    document_model_information(model_vgg16_custom, history_vgg16_custom)
-
-    history_vgg16_pretrained, model_vgg16_pretrained = (
-        train_pretrained_vgg16(normalized_train_data,
-                               normalized_test_data,
-                               train_generator,
-                               test_generator,
-                               batch_size,
-                               epochs)
-    )
-
-    print(history_vgg16_pretrained.history)
-    document_model_information(model_vgg16_pretrained, history_vgg16_pretrained)
-
-    history_vgg16_weighted_loss, model_vgg16_weighted_loss = train_pretrained_vgg16_weighted(
-        normalized_train_data,
-        normalized_test_data, train_generator,
-        test_generator, train_labels,
-        batch_size, epochs)
-    # Ausgabe der Modellzusammenfassungen
-
-    document_model_information(model_vgg16_weighted_loss, history_vgg16_weighted_loss)
-
-    # Auf die History-Attribute zugreifen, um Loss und Genauigkeit zu dokumentieren
-    print(history_vgg16_weighted_loss.history)
-    '''
 
 
 if __name__ == "__main__":
