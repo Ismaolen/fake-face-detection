@@ -82,6 +82,40 @@ After setting up and activating the virtual environment, you can execute the scr
 python main.py
 ```
 
+## Real and Fake Image Detection in the Terminal using a Pretrained Model
+
+To test a trained model, execute the following script:
+
+```bash
+python3 demo/demo_without_kamera/live_demo.py
+```
+
+### Note:
+
+Please make the following adjustments in the `live_demo.py` script:
+
+- Enter the correct model path in `MODEL_PATH`.
+
+- Enter the path to either real or fake images in the following format:
+  ```python
+  image_path = f"data/fake_faces/{i + 1}_fake_faces.jpg"
+  ```
+
+Here's the corrected text translated into English:
+
+## Detection of Real and Fake Images with the Camera using a Pretrained Model
+
+This section uses a video to show how images are recognized as real or fake.
+
+The video cannot be played in Firefox. Please use Google Chrome.
+
+Description of what is seen in the video:
+
+In this video, you will see how images are recognized as real or fake. First, the script is executed, and then various images are presented in front of the camera. The model recognizes the images and determines whether they are real or fake. By the way, all images are labeled as real or fake, so we can determine whether the model has recognized the images correctly or incorrectly.
+
+**Visualization:**
+![](./demo/demo_kamera/Video_Demo/Kamera_Demo.mp4){width=1080 height=620}
+
 ## Deactivating Virtual Environment
 
 Finally, deactivate the virtual environment with the following command:

@@ -4,7 +4,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
 # Pfad zum trainierten Modell
-MODEL_PATH = 'docs/saved_models/b7e2d344-ce54-4ee3-b6c4-db122ef5d5a8.keras'
+MODEL_PATH = '../../../Data_HTW_Cloud/saved_models/b7e2d344-ce54-4ee3-b6c4-db122ef5d5a8.keras'
 
 # Modell laden
 model = load_model(MODEL_PATH)
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     count_fake = 0
     count_real = 0
     for i in range(15000):
-        image_path = f"data/fake_faces/{i + 1}_fake_faces.jpg"
+        image_path = f"../../../Data_HTW_Cloud/images/fake_faces/{i + 1}_fake_faces.jpg"
         state = live_demo(image_path)
         if state == 1:
             count_real += 1
