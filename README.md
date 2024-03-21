@@ -3,9 +3,6 @@
 ## Projekt Description
 This project implements a Convolutional Neural Network (CNN) to distinguish between fake and real faces, using TensorFlow and Keras for model training. The dataset contains 120,000 images (60,000 real, 60,000 fake), preprocessed to 224x224 pixels. The CNN, based on the Xception model, underwent fine-tuning and data augmentation. Training involved optimizing hyperparameters, while evaluation utilized a Confusion Matrix. A live demo enables real-time predictions with a camera feed. Detailed setup instructions and all code/resources are available in the GitLab repo. This project showcases the effectiveness of deep learning for enhancing facial recognition system security and reliability.
 
-## Description
-This file contains instructions for setting up the virtual environment and running the scripts.
-
 ## Clone Project Repository
 
 To start working with the project, the repository needs to be cloned to your local machine using the following command:
@@ -13,6 +10,9 @@ To start working with the project, the repository needs to be cloned to your loc
 ```bash
 git clone https://gitlab.rz.htw-berlin.de/s0580078/fake_face_detection.git
 ```
+
+## Description
+This file contains instructions for setting up the virtual environment and running the scripts.
 
 ## Setting Up the Virtual Environment
 
@@ -85,26 +85,6 @@ python main.py
 ### NOTE:
 For training with the 120,000 images, more computing power and graphics card are required. However, for training with the old data, which consists of the 1000 fake and real images, not as much computing power is needed, but the number of epochs must be adjusted in the config.py file.
 
-## Real and Fake Image Detection in the Terminal using a Pretrained Model
-
-To test a trained model, execute the following script:
-
-```bash
-python3 demo/demo_without_kamera/live_demo.py
-```
-
-### Note:
-
-Please make the following adjustments in the `live_demo.py` script:
-
-- Enter the correct model path in `MODEL_PATH`.
-
-- Enter the path to either real or fake images in the following format:
-  ```python
-  image_path = f"data/fake_faces/{i + 1}_fake_faces.jpg"
-  ```
-
-Here's the corrected text translated into English:
 
 ## Detection of Real and Fake Images with the Camera using a Pretrained Model
 
@@ -119,6 +99,7 @@ In this video, you will see how images are recognized as real or fake. First, th
 **Visualization:**
 
 ![](./demo/demo_kamera/Video_Demo/Kamera_Demo.mp4){width=1080 height=620}
+
 
 ## Deactivating Virtual Environment
 
