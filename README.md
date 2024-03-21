@@ -75,6 +75,7 @@ TensorFlow version `2.15.0.post1` is required for compatibility with our trained
    - Follow the instructions for non-Windows systems to install dependencies.
 
 ## Running Scripts
+Before running the scripts, the folders apple_red_skalled, real_faces, and Fake_faces from either old_images or neu_images directory need to be extracted into fake_face_detection/data.
 
 After setting up and activating the virtual environment, you can execute the scripts as follows:
 
