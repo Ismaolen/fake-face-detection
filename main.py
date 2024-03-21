@@ -13,64 +13,54 @@ from training_logger.training_logger import document_model_information
 import tensorflow as tf
 
 
-#
 def main():
-    # gpus = tf.config.list_physical_devices('GPU')
-    # if gpus:
-    # Restrict TensorFlow to only allocate 1GB of memory on the first GPU
-    #    try:
-    #        tf.config.set_logical_device_configuration(
-    #            gpus[0],
-    #            [tf.config.LogicalDeviceConfiguration(memory_limit=12288)])
-    #        logical_gpus = tf.config.list_logical_devices('GPU')
-    #        print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
-    #    except RuntimeError as e:
-    # Virtual devices must be set before GPUs have been initialized
-    #        print(e)
+    """
+    Main function to orchestrate the data processing, model training, and evaluation pipeline.
 
-    # print("Verfügbare Geräte: ", tf.config.list_physical_devices())
-
-    # Load Data from the Path
-    global real_images, fake_images, other_images
-    if num_class != 2:
+    This function performs several key tasks: loading and preparing the dataset, training a model on the prepared
+    dataset, and evaluating the trained model's performance. It handles both binary and multi-class scenarios
+    depending on the global `num_class` variable.
+    """
+    # The code for GPU configuration is commented out. It's used to limit TensorFlow GPU memory usage.
+    # Load data from the specified path
+    global real_images, fake_images, other_images  # Declare images as global variables for wider accessibility
+    if num_class != 2:  # If handling more than two classes (binary classification)
         real_images, fake_images, other_images = load_data('data/')
         # Save the Fake and Real Images
         save_data(real_images, fake_images, other_images)
-        # Load the Fake and Real Images
-        real_images, fake_images, other_images = load_images()
-        # Aufteilen in Tests und Trains images
-        train_data, test_data = create_data(real_images, fake_images, other_images)
-    else:
+
+        real_images, fake_images, other_images = load_images()  # Load images from the source
+        train_data, test_data = create_data(real_images, fake_images, other_images)  # Split data into training and testing sets
+    else:  # If handling binary classification
         real_images, fake_images = load_data('data/')
         # Save the Fake and Real Images
         save_data(real_images, fake_images)
-        # Load the Fake and Real Images
-        real_images, fake_images = load_images()
-        # Aufteilen in Tests und Trains images
-        train_data, test_data = create_data(real_images, fake_images)
 
-    # Extract Images and Labels
+        real_images, fake_images = load_images()  # Load images for binary classification
+        train_data, test_data = create_data(real_images, fake_images)  # Split binary classification data into training and testing sets
+
+    # Extract images and labels from the prepared dataset
     (train_images, train_labels), (test_images, test_labels) = train_data, test_data
 
-    # Scale, Normalize and Update the Data
+    # Preprocess data by scaling and normalizing
     normalized_train_data, normalized_test_data = preprocess_data(train_images, test_images, train_labels, test_labels)
 
-    # Erstellen eines ImageDataGenerator für das Training mit Augmentation
+    # Create ImageDataGenerators for training and testing; training generator includes data augmentation
     train_generator = create_train_generator(normalized_train_data)
-    # Ein einfacher Generator ohne Augmentation für die Testdaten
     test_generator = create_test_generator(normalized_test_data)
 
-    # Anzeigen einiger augmentierten Trainingsbilder
-    # display_augmented_images(train_generator, num_samples=5)
-
+    # Train the model using the prepared data and a pretrained Xception network
     history, model = train_pretrained_xception_3(train_generator, test_generator, batch_size, epochs)
-    print(history.history)
+    print(history.history)  # Print the training history
+
+    # Document model information and obtain a unique identifier for the model
     unique_id = document_model_information(model, history)
 
-    test_steps = len(test_generator)
-    # Evaluierung des Modells
+    test_steps = len(test_generator)  # Calculate the number of steps for the test generator
+    # Evaluate the trained model's performance
     evaluate_model(model, test_generator, test_steps, unique_id)
 
 
 if __name__ == "__main__":
     main()
+
