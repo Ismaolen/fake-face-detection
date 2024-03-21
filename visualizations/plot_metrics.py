@@ -34,5 +34,3 @@ def plot_metrics(unique_id, history, path="docs/loss_vs_accuracy_diagrams/"):
     plt.savefig(filename)
     plt.show()
     plt.close()
-
-
