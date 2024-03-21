@@ -20,7 +20,7 @@ To install dependencies for the project and ensure an isolated development envir
 
 ### Prerequisites
 
-Python 3.11 should be installed. You can check the Python version with the following command:
+Python 3 should be installed. You can check the Python version with the following command:
 
 ```bash
 python --version
@@ -37,7 +37,7 @@ cd <path>/fake-face-detection
 2. Create the virtual environment with the following command:
 
 ```bash
-python3.11 -m venv venv
+python3 -m venv venv
 ```
 
 ### Activating Virtual Environment
