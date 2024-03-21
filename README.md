@@ -82,7 +82,7 @@ After setting up and activating the virtual environment, you can execute the scr
 python main.py
 ```
 
-NOTE:
+### NOTE:
 For training with the 120,000 images, more computing power and graphics card are required. However, for training with the old data, which consists of the 1000 fake and real images, not as much computing power is needed, but the number of epochs must be adjusted in the config.py file.
 
 ## Real and Fake Image Detection in the Terminal using a Pretrained Model
