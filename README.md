@@ -8,7 +8,7 @@ This project implements a Convolutional Neural Network (CNN) to distinguish betw
 To start working with the project, the repository needs to be cloned to your local machine using the following command:
 
 ```bash
-git clone https://gitlab.rz.htw-berlin.de/s0580078/fake_face_detection.git
+git@github.com:Ismaolen/fake-face-detection.git
 ```
 
 ## Description
