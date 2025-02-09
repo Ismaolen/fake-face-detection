@@ -99,7 +99,7 @@ In this video, you will see how images are recognized as real or fake. First, th
 
 **Visualization:**
 
-![](./demo/demo_kamera/Video_Demo/Kamera_Demo.mp4){width=1080 height=620}
+![](./demo/demo_kamera/kamera-demo.mp4){width=1080 height=620}
 
 
 ## Deactivating Virtual Environment
