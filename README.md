@@ -99,7 +99,11 @@ In this video, you will see how images are recognized as real or fake. First, th
 
 **Visualization:**
 
-![](./demo/demo_kamera/kamera-demo.mp4){width=1080 height=620}
+<video width="1080" height="620" controls>
+  <source src="./demo/demo_kamera/kamera-demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 
 
 ## Deactivating Virtual Environment
